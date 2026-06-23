@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UPenn DS Learning Path — Eric Zhao</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:   #011F5B;
+      --red:    #990000;
+      --gold:   #C8A951;
+      --bg:     #f0f4f8;
+      --card:   #ffffff;
+      --text:   #1e293b;
+      --muted:  #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 8px rgba(0,0,0,.08);
+
+      /* status */
+      --s-done-bg:#f0fdf4; --s-done-bd:#bbf7d0; --s-done-tx:#15803d;
+      --s-prog-bg:#fffbeb; --s-prog-bd:#fde68a; --s-prog-tx:#92400e;
+      --s-next-bg:#eff6ff; --s-next-bd:#bfdbfe; --s-next-tx:#1e40af;
+      --s-plan-bg:#f5f3ff; --s-plan-bd:#ddd6fe; --s-plan-tx:#5b21b6;
+      --s-avail-bg:#f8fafc;--s-avail-bd:#e2e8f0; --s-avail-tx:#475569;
+    }
+
+    body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+    /* ── Header ── */
+    header { background:var(--blue); color:#fff; padding:24px; }
+    .h-inner { max-width:1200px; margin:auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+    .h-left  { display:flex; align-items:center; gap:16px; }
+    .h-emblem{ width:48px; height:48px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:900; color:var(--blue); flex-shrink:0; }
+    .h-title { font-size:1.4rem; font-weight:800; letter-spacing:-.02em; }
+    .h-sub   { font-size:.82rem; opacity:.75; margin-top:2px; }
+    .h-badges{ display:flex; gap:10px; flex-wrap:wrap; }
+    .badge   { font-size:.75rem; font-weight:700; padding:5px 14px; border-radius:20px; border:1.5px solid rgba(255,255,255,.25); background:rgba(255,255,255,.1); }
+    .badge.gold{ background:var(--gold); border-color:var(--gold); color:var(--blue); }
+
+    /* ── Sticky Nav ── */
+    nav { position:sticky; top:0; z-index:100; background:#fff; border-bottom:3px solid var(--blue); display:flex; overflow-x:auto; }
+    nav a { padding:13px 22px; text-decoration:none; font-weight:700; font-size:.85rem; color:var(--muted); white-space:nowrap; border-bottom:3px solid transparent; margin-bottom:-3px; transition:.15s; }
+    nav a:hover { color:var(--blue); border-bottom-color:var(--blue); background:#f8fafc; }
+
+    /* ── Layout ── */
+    .container { max-width:1200px; margin:auto; padding:0 24px; }
+    section { padding:40px 0 0; }
+    .sec-head { margin-bottom:24px; padding-bottom:16px; border-bottom:2px solid var(--border); display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+    .sec-head h2 { font-size:1.4rem; font-weight:800; color:var(--blue); }
+    .sec-sub  { font-size:.82rem; color:var(--muted); }
+    .sec-sub a{ color:var(--blue); }
+
+    /* ── Progress Strip ── */
+    .prog-strip { background:#fff; border-left:4px solid var(--gold); border-radius:0 8px 8px 0; padding:14px 20px; box-shadow:var(--shadow); display:flex; align-items:center; gap:24px; flex-wrap:wrap; margin:24px 0 0; }
+    .prog-item  { display:flex; flex-direction:column; }
+    .prog-label { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+    .prog-val   { font-size:1.1rem; font-weight:800; color:var(--blue); }
+    .prog-bar-wrap { flex:1; min-width:160px; }
+    .prog-bar-track{ height:8px; background:var(--border); border-radius:4px; overflow:hidden; margin-top:4px; }
+    .prog-bar-fill { height:100%; background:var(--blue); border-radius:4px; transition:width .6s; }
+    .prog-pct { font-size:.75rem; font-weight:700; color:var(--blue); margin-top:2px; }
+
+    /* ── Status Legend ── */
+    .legend { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; padding:10px 14px; background:#fff; border-radius:8px; border:1px solid var(--border); }
+    .leg-item { display:flex; align-items:center; gap:6px; font-size:.75rem; color:var(--muted); font-weight:600; }
+    .leg-dot  { width:10px; height:10px; border-radius:3px; }
+
+    /* ── Category ── */
+    .cat-group  { margin-bottom:32px; }
+    .cat-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+    .cat-name   { font-size:1rem; font-weight:800; }
+    .cat-meta   { font-size:.75rem; color:var(--muted); background:var(--border); padding:2px 10px; border-radius:10px; }
+    .alt-note   { font-size:.75rem; color:var(--muted); font-style:italic; }
+
+    /* ── Course Grid ── */
+    .course-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:14px; }
+
+    .course-card { border-radius:10px; border:1.5px solid var(--border); padding:15px; background:var(--card); box-shadow:var(--shadow); transition:transform .15s,box-shadow .15s; cursor:default; position:relative; }
+    .course-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-md); }
+    .course-card:hover .c-notes { display:block; }
+
+    .course-card.s-completed { background:var(--s-done-bg); border-color:var(--s-done-bd); }
+    .course-card.s-in-progress{ background:var(--s-prog-bg); border-color:var(--s-prog-bd); }
+    .course-card.s-upcoming  { background:var(--s-next-bg); border-color:var(--s-next-bd); }
+    .course-card.s-planned   { background:var(--s-plan-bg); border-color:var(--s-plan-bd); }
+    .course-card.s-available { background:var(--s-avail-bg); border-color:var(--s-avail-bd); opacity:.82; }
+
+    .c-top   { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px; gap:6px; }
+    .c-code  { font-size:.72rem; font-weight:800; color:var(--muted); font-family:monospace; letter-spacing:.06em; }
+    .c-cred  { font-size:.68rem; font-weight:800; background:var(--blue); color:#fff; padding:2px 8px; border-radius:10px; white-space:nowrap; }
+    .c-title { font-size:.92rem; font-weight:700; line-height:1.35; margin-bottom:10px; }
+
+    .c-foot  { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+    .c-status{ font-size:.68rem; font-weight:800; padding:3px 9px; border-radius:10px; text-transform:uppercase; letter-spacing:.04em; }
+    .c-status.s-completed  { background:#dcfce7; color:#166534; }
+    .c-status.s-in-progress{ background:#fef3c7; color:#92400e; }
+    .c-status.s-upcoming   { background:#dbeafe; color:#1e40af; }
+    .c-status.s-planned    { background:#ede9fe; color:#5b21b6; }
+    .c-status.s-available  { background:#f1f5f9; color:#475569; }
+
+    .c-diff  { display:flex; align-items:center; gap:5px; }
+    .c-diff-lbl { font-size:.68rem; color:var(--muted); font-weight:700; }
+    .c-diff-bar { width:52px; height:5px; background:#e2e8f0; border-radius:3px; overflow:hidden; }
+    .c-diff-fill{ height:100%; border-radius:3px; }
+    .c-diff-val { font-size:.72rem; font-weight:800; }
+
+    .c-sem   { font-size:.68rem; color:var(--muted); width:100%; margin-top:5px; }
+    .c-notes { display:none; font-size:.75rem; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px solid var(--border); line-height:1.5; }
+
+    /* ── Calendar ── */
+    .cal-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+    .cal-tab  { padding:7px 16px; border:2px solid var(--border); border-radius:20px; background:#fff; cursor:pointer; font-size:.82rem; font-weight:700; color:var(--muted); transition:.15s; }
+    .cal-tab:hover,.cal-tab.active { border-color:var(--blue); color:var(--blue); background:#eff6ff; }
+
+    .cal-box  { background:#fff; border-radius:12px; padding:24px; box-shadow:var(--shadow); }
+    .cal-legend { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+    .cal-leg-item { display:flex; align-items:center; gap:5px; font-size:.73rem; color:var(--muted); }
+    .cal-leg-dot  { width:10px; height:10px; border-radius:50%; }
+
+    .months-wrap { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:28px; }
+    .month-block {}
+    .month-name  { font-size:.85rem; font-weight:800; color:var(--blue); text-align:center; margin-bottom:8px; }
+    .week-hdrs   { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:3px; }
+    .week-hdr    { text-align:center; font-size:.6rem; font-weight:800; color:var(--muted); text-transform:uppercase; }
+    .days-grid   { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+
+    .day-cell    { border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:3px 1px; font-size:.68rem; font-weight:500; min-height:30px; position:relative; }
+    .day-cell.empty { visibility:hidden; }
+    .day-cell.today { background:var(--blue) !important; border-radius:50%; color:#fff !important; font-weight:800; }
+    .day-cell.has-events { background:#f8fafc; }
+    .day-num     { line-height:1.2; }
+    .ev-dots     { display:flex; gap:1px; flex-wrap:wrap; justify-content:center; margin-top:2px; max-width:100%; }
+    .ev-dot      { width:4px; height:4px; border-radius:50%; flex-shrink:0; }
+
+    /* Tooltip */
+    .day-cell[data-tip] { cursor:help; }
+    .day-cell[data-tip]:hover::after {
+      content:attr(data-tip);
+      position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%);
+      background:rgba(15,23,42,.9); color:#fff; font-size:.68rem; padding:5px 9px;
+      border-radius:6px; white-space:nowrap; z-index:200; pointer-events:none;
+      max-width:220px; white-space:normal; text-align:center; line-height:1.4;
+    }
+
+    .events-list { margin-top:20px; padding-top:16px; border-top:1px solid var(--border); }
+    .events-list h4 { font-size:.82rem; font-weight:800; color:var(--text); margin-bottom:10px; }
+    .ev-row  { display:flex; gap:10px; padding:7px 0; border-bottom:1px solid #f1f5f9; font-size:.78rem; align-items:flex-start; }
+    .ev-row:last-child { border-bottom:none; }
+    .ev-bar  { width:3px; min-height:18px; border-radius:2px; flex-shrink:0; margin-top:3px; }
+    .ev-date { font-size:.72rem; color:var(--muted); font-weight:700; min-width:100px; padding-top:1px; }
+    .ev-ttl  { color:var(--text); font-weight:500; line-height:1.4; }
+
+    /* ── Semester Plan ── */
+    .timeline { position:relative; padding-left:36px; }
+    .timeline::before { content:''; position:absolute; left:14px; top:0; bottom:0; width:2px; background:var(--border); }
+
+    .sem-block { position:relative; margin-bottom:20px; background:#fff; border-radius:12px; border:1.5px solid var(--border); padding:18px 20px; box-shadow:var(--shadow); }
+    .sem-block::before { content:''; position:absolute; left:-28px; top:20px; width:14px; height:14px; border-radius:50%; background:#fff; border:3px solid var(--border); }
+    .sem-block.s-in-progress::before { border-color:#d97706; }
+    .sem-block.s-upcoming::before    { border-color:#2563eb; }
+    .sem-block.s-planned::before     { border-color:#7c3aed; }
+    .sem-block.s-completed::before   { border-color:#16a34a; }
+
+    .sem-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .sem-title  { font-size:1rem; font-weight:800; color:var(--blue); }
+    .sem-dates  { font-size:.75rem; color:var(--muted); }
+    .sem-cu-pill{ font-size:.72rem; font-weight:800; background:var(--blue); color:#fff; padding:3px 12px; border-radius:12px; }
+    .sem-chips  { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+    .chip       { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:20px; font-size:.78rem; font-weight:700; border:1.5px solid; }
+    .chip.s-completed  { background:var(--s-done-bg); border-color:var(--s-done-bd); color:var(--s-done-tx); }
+    .chip.s-in-progress{ background:var(--s-prog-bg); border-color:var(--s-prog-bd); color:var(--s-prog-tx); }
+    .chip.s-upcoming   { background:var(--s-next-bg); border-color:var(--s-next-bd); color:var(--s-next-tx); }
+    .chip.s-planned    { background:var(--s-plan-bg); border-color:var(--s-plan-bd); color:var(--s-plan-tx); }
+    .sem-cum { font-size:.75rem; color:var(--muted); display:flex; align-items:center; gap:10px; }
+    .cum-bar  { width:120px; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+    .cum-fill { height:100%; background:var(--blue); border-radius:3px; }
+    .sem-notes{ font-size:.75rem; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-style:italic; line-height:1.5; }
+
+    /* ── Footer ── */
+    footer { background:var(--blue); color:rgba(255,255,255,.65); text-align:center; padding:20px 24px; font-size:.8rem; margin-top:56px; }
+    footer a{ color:var(--gold); text-decoration:none; }
+    footer a:hover{ text-decoration:underline; }
+
+    /* ── Responsive ── */
+    @media(max-width:640px){
+      header { padding:16px; }
+      .h-title { font-size:1.1rem; }
+      .container { padding:0 16px; }
+      .months-wrap { grid-template-columns:1fr 1fr; gap:16px; }
+      .course-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="h-left">
+      <div class="h-emblem">P</div>
+      <div>
+        <div class="h-title">UPenn DS Learning Path</div>
+        <div class="h-sub">Master of Science in Data Science &nbsp;·&nbsp; Online</div>
+      </div>
+    </div>
+    <div class="h-badges" id="h-badges"></div>
+  </div>
+</header>
+
+<nav>
+  <a href="#requirements">📋 Requirements</a>
+  <a href="#calendar">📅 Calendar</a>
+  <a href="#plan">🗺️ Semester Plan</a>
+</nav>
+
+<div class="container">
+  <div class="prog-strip" id="prog-strip"></div>
+
+  <!-- Section 1 -->
+  <section id="requirements">
+    <div class="sec-head">
+      <h2>Degree Requirements</h2>
+      <span class="sec-sub">10 CU Total &nbsp;·&nbsp; Foundations 3 · Core 4 · Tech Electives 2 · Open 1</span>
+    </div>
+    <div class="legend" id="req-legend"></div>
+    <div id="req-content"></div>
+  </section>
+
+  <!-- Section 2 -->
+  <section id="calendar">
+    <div class="sec-head">
+      <h2>Academic Calendar</h2>
+      <span class="sec-sub">Source: <a href="https://almanac.upenn.edu/penn-academic-calendar/" target="_blank">almanac.upenn.edu</a> &nbsp;·&nbsp; Updated 1/13/25</span>
+    </div>
+    <div class="cal-tabs" id="cal-tabs"></div>
+    <div id="cal-content"></div>
+  </section>
+
+  <!-- Section 3 -->
+  <section id="plan" style="padding-bottom:40px">
+    <div class="sec-head">
+      <h2>Semester Plan</h2>
+      <span class="sec-sub">1 course / semester (flexible for work + family) &nbsp;·&nbsp; Estimated graduation: Fall 2029</span>
+    </div>
+    <div class="timeline" id="plan-content"></div>
+  </section>
+</div>
+
+<footer>
+  Eric Zhao &nbsp;·&nbsp; UPenn MSDS &nbsp;·&nbsp; Last updated June 2026 &nbsp;·&nbsp;
+  <a href="https://almanac.upenn.edu/penn-academic-calendar/" target="_blank">UPenn Academic Calendar</a>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════════════ */
+const MONTH_NAMES = ['January','February','March','April','May','June',
+                     'July','August','September','October','November','December'];
+const DAY_ABBR    = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+const STATUS_LABEL = {
+  'completed':   '✓ Completed',
+  'in-progress': '▶ In Progress',
+  'upcoming':    '→ Upcoming',
+  'planned':     '○ Planned',
+  'available':   '◇ Available'
+};
+
+const STATUS_COLORS = {
+  'completed':  '#16a34a',
+  'in-progress':'#d97706',
+  'upcoming':   '#2563eb',
+  'planned':    '#7c3aed',
+  'available':  '#94a3b8'
+};
+
+function diffColor(d) {
+  if (!d) return '#94a3b8';
+  if (d <= 3) return '#16a34a';
+  if (d <= 5) return '#ca8a04';
+  if (d <= 7) return '#ea580c';
+  return '#dc2626';
+}
+
+function pad(n){ return String(n).padStart(2,'0'); }
+function dateStr(y,m,d){ return `${y}-${pad(m)}-${pad(d)}`; }
+
+/* ═══════════════════════════════════════════════════════
+   LOAD & BOOTSTRAP
+═══════════════════════════════════════════════════════ */
+async function init() {
+  try {
+    const [courses, calendar, plan] = await Promise.all([
+      fetch('./data/courses.json').then(r => r.json()),
+      fetch('./data/calendar.json').then(r => r.json()),
+      fetch('./data/semester_plan.json').then(r => r.json())
+    ]);
+    renderHeader(courses.meta);
+    renderProgress(courses.meta);
+    renderRequirements(courses);
+    renderCalendar(calendar);
+    renderPlan(plan, courses);
+  } catch(e) {
+    document.body.innerHTML = `<p style="padding:40px;color:#dc2626;font-family:sans-serif">
+      ⚠️ Could not load data files. Serve via a local server or GitHub Pages.<br><small>${e}</small></p>`;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 0 — HEADER + PROGRESS
+═══════════════════════════════════════════════════════ */
+function renderHeader(meta) {
+  const completed = meta.completed_cu;
+  const inProg    = meta.in_progress_cu;
+  document.getElementById('h-badges').innerHTML = `
+    <div class="badge gold">${completed + inProg} / ${meta.total_required_cu} CU</div>
+    <div class="badge">Est. Graduation: ${meta.estimated_graduation}</div>
+  `;
+}
+
+function renderProgress(meta) {
+  const done = meta.completed_cu;
+  const prog = meta.in_progress_cu;
+  const total= meta.total_required_cu;
+  const pct  = Math.round((done / total) * 100);
+  const pctP = Math.round(((done + prog) / total) * 100);
+  document.getElementById('prog-strip').innerHTML = `
+    <div class="prog-item"><div class="prog-label">Completed</div><div class="prog-val">${done} CU</div></div>
+    <div class="prog-item"><div class="prog-label">In Progress</div><div class="prog-val">${prog} CU</div></div>
+    <div class="prog-item"><div class="prog-label">Remaining</div><div class="prog-val">${total - done - prog} CU</div></div>
+    <div class="prog-item"><div class="prog-label">Graduation</div><div class="prog-val">${meta.estimated_graduation}</div></div>
+    <div class="prog-bar-wrap">
+      <div class="prog-label">Overall Progress</div>
+      <div class="prog-bar-track">
+        <div class="prog-bar-fill" style="width:${pctP}%;opacity:.4;background:#011F5B;position:absolute;"></div>
+        <div class="prog-bar-fill" style="width:${pct}%"></div>
+      </div>
+      <div class="prog-pct">${done} / ${total} CU (${pct}%)</div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 1 — REQUIREMENTS
+═══════════════════════════════════════════════════════ */
+function renderRequirements(data) {
+  // Legend
+  document.getElementById('req-legend').innerHTML =
+    Object.entries(STATUS_LABEL).map(([k,v]) => `
+      <div class="leg-item">
+        <div class="leg-dot" style="background:${STATUS_COLORS[k]}"></div>
+        ${v}
+      </div>`).join('');
+
+  // Group courses by category
+  const groups = {};
+  data.categories.forEach(c => groups[c.id] = { meta: c, courses: [] });
+  data.courses.forEach(c => { if (groups[c.category]) groups[c.category].courses.push(c); });
+
+  let html = '';
+  data.categories.forEach(cat => {
+    const { courses } = groups[cat.id];
+    html += `
+      <div class="cat-group">
+        <div class="cat-header">
+          <span class="cat-name">${cat.name}</span>
+          <span class="cat-meta">${cat.required_cu} CU required</span>
+          <span class="alt-note">${cat.description}</span>
+        </div>
+        <div class="course-grid">
+          ${courses.map(renderCourseCard).join('')}
+        </div>
+      </div>`;
+  });
+  document.getElementById('req-content').innerHTML = html;
+}
+
+function renderCourseCard(c) {
+  const s = c.status;
+  const diffVal = c.difficulty;
+  const diffHtml = diffVal != null ? `
+    <div class="c-diff">
+      <span class="c-diff-lbl">Load</span>
+      <div class="c-diff-bar"><div class="c-diff-fill" style="width:${diffVal*10}%;background:${diffColor(diffVal)}"></div></div>
+      <span class="c-diff-val" style="color:${diffColor(diffVal)}">${diffVal}${c.difficulty_star ? '⭐' : ''}</span>
+    </div>` : '';
+  const semHtml = c.semester ? `<div class="c-sem">📅 ${c.semester}</div>` : '';
+  const altHtml = c.alt_note ? `<div class="c-sem" style="color:#7c3aed;font-style:italic">${c.alt_note}</div>` : '';
+  return `
+    <div class="course-card s-${s}">
+      <div class="c-top">
+        <span class="c-code">${c.code}</span>
+        <span class="c-cred">${c.credits} CU</span>
+      </div>
+      <div class="c-title">${c.title}</div>
+      <div class="c-foot">
+        <span class="c-status s-${s}">${STATUS_LABEL[s]}</span>
+        ${diffHtml}
+      </div>
+      ${semHtml}${altHtml}
+      <div class="c-notes">${c.notes}</div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 2 — CALENDAR
+═══════════════════════════════════════════════════════ */
+let calData = null;
+let activeTerm = null;
+
+function renderCalendar(data) {
+  calData = data;
+  activeTerm = data.terms[0].id;
+
+  // Tabs
+  document.getElementById('cal-tabs').innerHTML = data.terms.map(t => `
+    <button class="cal-tab${t.id === activeTerm ? ' active' : ''}"
+            onclick="switchTerm('${t.id}')">${t.name}</button>`).join('');
+
+  renderCalTerm(activeTerm);
+}
+
+function switchTerm(id) {
+  activeTerm = id;
+  document.querySelectorAll('.cal-tab').forEach(b => b.classList.toggle('active', b.textContent.trim() === calData.terms.find(t=>t.id===id).name));
+  renderCalTerm(id);
+}
+
+function renderCalTerm(id) {
+  const term = calData.terms.find(t => t.id === id);
+  const evTypes = calData.event_types;
+
+  // Legend
+  const legendHtml = Object.entries(evTypes).map(([k,v]) => `
+    <div class="cal-leg-item"><div class="cal-leg-dot" style="background:${v.color}"></div>${v.label}</div>`).join('');
+
+  // Build event lookup (expand ranges)
+  const eventsByDate = {};
+  term.events.forEach(ev => {
+    const start = new Date(ev.date + 'T00:00:00');
+    const end   = ev.end_date ? new Date(ev.end_date + 'T00:00:00') : start;
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+      const key = dateStr(d.getFullYear(), d.getMonth()+1, d.getDate());
+      if (!eventsByDate[key]) eventsByDate[key] = [];
+      if (!eventsByDate[key].find(e=>e.title===ev.title)) eventsByDate[key].push(ev);
+    }
+  });
+
+  // Months
+  const today = new Date();
+  const todayKey = dateStr(today.getFullYear(), today.getMonth()+1, today.getDate());
+
+  // Deduplicate months (summer shares may + aug with adjacent terms)
+  const seen = new Set();
+  const months = term.months.filter(m => { if(seen.has(m)){return false;} seen.add(m); return true; });
+
+  const monthsHtml = months.map(ym => {
+    const [y, m] = ym.split('-').map(Number);
+    const firstDay = new Date(y, m-1, 1).getDay();
+    const daysInMonth = new Date(y, m, 0).getDate();
+    let cells = '<div class="week-hdrs">' + DAY_ABBR.map(d=>`<div class="week-hdr">${d}</div>`).join('') + '</div>';
+    cells += '<div class="days-grid">';
+    for (let i=0; i<firstDay; i++) cells += '<div class="day-cell empty"></div>';
+    for (let day=1; day<=daysInMonth; day++) {
+      const key = dateStr(y, m, day);
+      const evs = eventsByDate[key] || [];
+      const isToday = key === todayKey;
+      const tip = evs.length ? evs.map(e=>e.title).join(' · ') : '';
+      const dotsHtml = evs.slice(0,4).map(e =>
+        `<div class="ev-dot" style="background:${evTypes[e.type]?.color||'#94a3b8'}"></div>`).join('');
+      cells += `<div class="day-cell${evs.length?' has-events':''}${isToday?' today':''}"${tip?` data-tip="${tip.replace(/"/g,"'")}"`:''}>
+        <span class="day-num">${day}</span>
+        ${evs.length && !isToday ? `<div class="ev-dots">${dotsHtml}</div>` : ''}
+      </div>`;
+    }
+    cells += '</div>';
+    return `<div class="month-block"><div class="month-name">${MONTH_NAMES[m-1]} ${y}</div>${cells}</div>`;
+  }).join('');
+
+  // Event list (sorted by date)
+  const sortedEvents = [...term.events].sort((a,b) => a.date.localeCompare(b.date));
+  const evListHtml = sortedEvents.map(ev => {
+    const color = evTypes[ev.type]?.color || '#94a3b8';
+    const dateDisplay = ev.end_date ? `${fmtDate(ev.date)} – ${fmtDate(ev.end_date)}` : fmtDate(ev.date);
+    return `<div class="ev-row">
+      <div class="ev-bar" style="background:${color}"></div>
+      <div class="ev-date">${dateDisplay}</div>
+      <div class="ev-ttl">${ev.title}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('cal-content').innerHTML = `
+    <div class="cal-box">
+      <div class="cal-legend">${legendHtml}</div>
+      <div class="months-wrap">${monthsHtml}</div>
+      <div class="events-list">
+        <h4>All Events — ${term.name}</h4>
+        ${evListHtml}
+      </div>
+    </div>`;
+}
+
+function fmtDate(s) {
+  const [y,m,d] = s.split('-').map(Number);
+  return `${MONTH_NAMES[m-1].slice(0,3)} ${d}, ${y}`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 3 — SEMESTER PLAN
+═══════════════════════════════════════════════════════ */
+function renderPlan(plan, courses) {
+  const courseMap = {};
+  courses.courses.forEach(c => courseMap[c.id] = c);
+
+  const html = plan.semesters.map(sem => {
+    const chips = sem.courses.map(cid => {
+      const c = courseMap[cid];
+      if (!c) return '';
+      return `<div class="chip s-${c.status}">${c.code} · ${c.title} <span style="opacity:.65">(${c.credits} CU)</span></div>`;
+    }).join('');
+
+    const pct = Math.round((sem.cumulative_cu / 10) * 100);
+    return `
+      <div class="sem-block s-${sem.status}">
+        <div class="sem-header">
+          <div>
+            <div class="sem-title">${sem.term}</div>
+            <div class="sem-dates">${sem.dates}</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="c-status s-${sem.status}" style="font-size:.72rem">${STATUS_LABEL[sem.status]}</span>
+            <span class="sem-cu-pill">+${sem.cu_this_term} CU</span>
+          </div>
+        </div>
+        <div class="sem-chips">${chips}</div>
+        <div class="sem-cum">
+          <span>Cumulative: <strong>${sem.cumulative_cu} / 10 CU</strong></span>
+          <div class="cum-bar"><div class="cum-fill" style="width:${pct}%"></div></div>
+          <span>${pct}%</span>
+        </div>
+        <div class="sem-notes">${sem.notes}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('plan-content').innerHTML = html;
+}
+
+init();
+</script>
+</body>
+</html>

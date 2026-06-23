@@ -1,0 +1,307 @@
+{
+  "meta": {
+    "total_required_cu": 10,
+    "completed_cu": 0,
+    "in_progress_cu": 1,
+    "estimated_graduation": "Fall 2029",
+    "last_updated": "2026-06-23"
+  },
+  "categories": [
+    {
+      "id": "foundations",
+      "name": "Foundations",
+      "required_cu": 3,
+      "description": "All 3 CU required"
+    },
+    {
+      "id": "core",
+      "name": "Core Courses",
+      "required_cu": 4,
+      "description": "All 4 CU required"
+    },
+    {
+      "id": "tech_elective",
+      "name": "Technical Electives",
+      "required_cu": 2,
+      "description": "Choose 2 CU from list"
+    },
+    {
+      "id": "open_elective",
+      "name": "Open Elective",
+      "required_cu": 1,
+      "description": "Any EAS / CIS / ESE / ENGR 5000–9999 online course"
+    }
+  ],
+  "courses": [
+    {
+      "id": "cit5950",
+      "code": "CIT 5950",
+      "title": "Computer Systems Programming",
+      "credits": 1.0,
+      "category": "foundations",
+      "status": "planned",
+      "semester": "Fall 2027",
+      "difficulty": 4,
+      "difficulty_star": false,
+      "notes": "C / systems programming. C++ background from COS CSCI 001/002 (A+) covers pointers & memory — the hardest part. New areas: system calls, processes, threads, file I/O."
+    },
+    {
+      "id": "cit5960",
+      "code": "CIT 5960",
+      "title": "Algorithms and Computation",
+      "credits": 1.0,
+      "category": "foundations",
+      "status": "planned",
+      "semester": "Summer 2027",
+      "difficulty": 4,
+      "difficulty_star": false,
+      "notes": "Graduate-level algorithms. Strong foundation from SJSU CS 146 Data Structures & Algorithms (A). Grad rigor adds complexity analysis and proof techniques."
+    },
+    {
+      "id": "cis5150",
+      "code": "CIS 5150",
+      "title": "Fundamentals of Linear Algebra and Optimization",
+      "credits": 1.0,
+      "category": "foundations",
+      "status": "upcoming",
+      "semester": "Spring 2027",
+      "difficulty": 3,
+      "difficulty_star": false,
+      "alt_group": "math_foundation",
+      "alt_note": "OR: EAS 5160 (0.5 CU) + EAS 5170 (0.5 CU)",
+      "notes": "Linear algebra covered in SJSU MATH 39 (A). Optimization part is new but builds naturally on existing math background."
+    },
+    {
+      "id": "eas5160",
+      "code": "EAS 5160",
+      "title": "Mathematical Foundations for ML I: Probability",
+      "credits": 0.5,
+      "category": "foundations",
+      "status": "available",
+      "semester": null,
+      "difficulty": 3,
+      "difficulty_star": false,
+      "alt_group": "math_foundation",
+      "alt_note": "Alternative to CIS 5150. Pair with EAS 5170 to satisfy 1 CU requirement.",
+      "notes": "Alternative foundation path. Solid background from SJSU MATH 161A/B Applied Probability & Statistics."
+    },
+    {
+      "id": "eas5170",
+      "code": "EAS 5170",
+      "title": "Mathematical Foundations for ML II: Linear Algebra",
+      "credits": 0.5,
+      "category": "foundations",
+      "status": "available",
+      "semester": null,
+      "difficulty": 3,
+      "difficulty_star": false,
+      "alt_group": "math_foundation",
+      "alt_note": "Alternative to CIS 5150. Pair with EAS 5160 to satisfy 1 CU requirement.",
+      "notes": "Alternative foundation path. Strong linear algebra background from SJSU MATH 39 (A)."
+    },
+    {
+      "id": "cis5450",
+      "code": "CIS 5450",
+      "title": "Big Data Analytics",
+      "credits": 1.0,
+      "category": "core",
+      "status": "planned",
+      "semester": "Fall 2028",
+      "difficulty": 5,
+      "difficulty_star": false,
+      "notes": "Spark / Hadoop ecosystem. Background from SJSU CS 131 Processing Big Data (A). Graduate version carries heavier engineering project load."
+    },
+    {
+      "id": "cis5500",
+      "code": "CIS 5500",
+      "title": "Database and Information Systems",
+      "credits": 1.0,
+      "category": "core",
+      "status": "planned",
+      "semester": "Summer 2028",
+      "difficulty": 5,
+      "difficulty_star": false,
+      "notes": "SQL + relational theory + system design. CS 157A at SJSU was the weakest grade (B−). Dedicated summer term allows focused catch-up."
+    },
+    {
+      "id": "ese5410",
+      "code": "ESE 5410",
+      "title": "Machine Learning for Data Science",
+      "credits": 1.0,
+      "category": "core",
+      "status": "planned",
+      "semester": "Spring 2028",
+      "difficulty": 5,
+      "difficulty_star": false,
+      "notes": "Graduate ML — more mathematical than undergrad. Background from CS 171 Intro ML (A). Sequenced after Stats + Linear Algebra for best results."
+    },
+    {
+      "id": "ese5420",
+      "code": "ESE 5420",
+      "title": "Statistics for Data Science",
+      "credits": 1.0,
+      "category": "core",
+      "status": "in-progress",
+      "semester": "Fall 2026",
+      "difficulty": 4,
+      "difficulty_star": false,
+      "notes": "Strong foundation from SJSU MATH 161A/B Applied Probability & Statistics (A / A+). Graduate rigor is elevated but very manageable."
+    },
+    {
+      "id": "cis5030",
+      "code": "CIS 5030",
+      "title": "Algorithms for Big Data",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 6,
+      "difficulty_star": false,
+      "notes": "Theory-heavy. Streaming algorithms, sketching, randomized methods applied to massive data. Requires strong algorithm background."
+    },
+    {
+      "id": "cis5210",
+      "code": "CIS 5210",
+      "title": "Artificial Intelligence",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "planned",
+      "semester": "Spring 2029",
+      "difficulty": 5,
+      "difficulty_star": false,
+      "notes": "Solid background from SJSU CS 156 Intro AI (A+). Covers search, logic, planning, probabilistic inference systematically."
+    },
+    {
+      "id": "cis5300",
+      "code": "CIS 5300",
+      "title": "Natural Language Processing",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 6,
+      "difficulty_star": false,
+      "notes": "Extends ML background into text / language. Fast-moving field — Transformer-era content requires staying current."
+    },
+    {
+      "id": "cis5690",
+      "code": "CIS 5690",
+      "title": "GPU Computing for Machine Learning Systems",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 8,
+      "difficulty_star": true,
+      "notes": "CUDA programming + GPU architecture. High systems-level knowledge required. Best taken after CIT 5950."
+    },
+    {
+      "id": "cis5810",
+      "code": "CIS 5810",
+      "title": "Computer Vision & Computational Photography",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 6,
+      "difficulty_star": false,
+      "notes": "Vision algorithms + deep learning for images. Good extension of ML and Python background."
+    },
+    {
+      "id": "ese5460",
+      "code": "ESE 5460",
+      "title": "Principles of Deep Learning",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 7,
+      "difficulty_star": true,
+      "notes": "High math demand (matrix calculus, backprop from scratch). Large project load. Strong ML background helps significantly."
+    },
+    {
+      "id": "eas5240",
+      "code": "EAS 5240",
+      "title": "Technology Ethics and the Legal Landscape",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "upcoming",
+      "semester": "Spring 2027",
+      "difficulty": 2,
+      "difficulty_star": false,
+      "notes": "Reading and writing focused. Excellent pairing with a harder technical course. Strong writing background (COMM 001 A+, PHIL 025 A+)."
+    },
+    {
+      "id": "eas5740",
+      "code": "EAS 5740",
+      "title": "How to Use Data",
+      "credits": 0.5,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 2,
+      "difficulty_star": false,
+      "notes": "Applied and case-study based. Low weekly load — ideal buffer course to pair with heavier technical work. 0.5 CU."
+    },
+    {
+      "id": "eas5850",
+      "code": "EAS 5850",
+      "title": "Imaging Informatics",
+      "credits": 0.5,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 3,
+      "difficulty_star": false,
+      "notes": "Clinical and medical imaging focus. 0.5 CU."
+    },
+    {
+      "id": "eas5860",
+      "code": "EAS 5860",
+      "title": "Medical Image Analysis",
+      "credits": 0.5,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 4,
+      "difficulty_star": false,
+      "notes": "Deep learning applied to medical images. Pairs well with EAS 5850. 0.5 CU."
+    },
+    {
+      "id": "eas5870",
+      "code": "EAS 5870",
+      "title": "Generative AI for Virtual Environments",
+      "credits": 0.5,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 4,
+      "difficulty_star": false,
+      "notes": "GenAI applications in virtual / augmented reality contexts. Emerging field. 0.5 CU."
+    },
+    {
+      "id": "dats5980",
+      "code": "DATS 5980",
+      "title": "Data Science Capstone",
+      "credits": 1.0,
+      "category": "tech_elective",
+      "status": "available",
+      "semester": null,
+      "difficulty": 6,
+      "difficulty_star": false,
+      "notes": "End-to-end DS project integrating all coursework. Strong option as a final-semester capstone course."
+    },
+    {
+      "id": "open_elective",
+      "code": "TBD",
+      "title": "Open Elective",
+      "credits": 1.0,
+      "category": "open_elective",
+      "status": "planned",
+      "semester": "Fall 2029",
+      "difficulty": null,
+      "difficulty_star": false,
+      "notes": "Any eligible online course in EAS, CIS, ESE, or ENGR at the 5000–9999 level. Course TBD based on interests at the time."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "semesters": [
+    {
+      "id": "fall2026",
+      "term": "Fall 2026",
+      "dates": "Aug 25 – Dec 17, 2026",
+      "status": "in-progress",
+      "courses": ["ese5420"],
+      "cu_this_term": 1,
+      "cumulative_cu": 1,
+      "notes": "Testing work–study–family balance with 1 course. Statistics is the right first course — directly required and well within background."
+    },
+    {
+      "id": "spring2027",
+      "term": "Spring 2027",
+      "dates": "Jan 20 – May 17, 2027",
+      "status": "upcoming",
+      "courses": ["cis5150", "eas5240"],
+      "cu_this_term": 2,
+      "cumulative_cu": 3,
+      "notes": "CIS 5150 (difficulty 3) + EAS 5240 (difficulty 2) = combined load of 5. Manageable with work schedule. Ethics is reading/writing — pairs well with a math course."
+    },
+    {
+      "id": "summer2027",
+      "term": "Summer 2027",
+      "dates": "Jun 1 – Aug 13, 2027",
+      "status": "planned",
+      "courses": ["cit5960"],
+      "cu_this_term": 1,
+      "cumulative_cu": 4,
+      "notes": "Accelerated ~10-week session. Strong algorithms background makes this feasible solo. Summer = fewer work distractions."
+    },
+    {
+      "id": "fall2027",
+      "term": "Fall 2027",
+      "dates": "Aug 31 – Dec 22, 2027",
+      "status": "planned",
+      "courses": ["cit5950"],
+      "cu_this_term": 1,
+      "cumulative_cu": 5,
+      "notes": "Systems programming. Single course to allow time to adapt to C system calls. C++ background makes this less daunting than it looks."
+    },
+    {
+      "id": "spring2028",
+      "term": "Spring 2028",
+      "dates": "Jan 12 – May 9, 2028",
+      "status": "planned",
+      "courses": ["ese5410"],
+      "cu_this_term": 1,
+      "cumulative_cu": 6,
+      "notes": "Machine Learning for DS. Sequenced after Statistics (ESE 5420) and Linear Algebra (CIS 5150) — the two foundations ML most depends on."
+    },
+    {
+      "id": "summer2028",
+      "term": "Summer 2028",
+      "dates": "May 22 – Aug 4, 2028",
+      "status": "planned",
+      "courses": ["cis5500"],
+      "cu_this_term": 1,
+      "cumulative_cu": 7,
+      "notes": "Databases. Weakest area from undergrad (CS 157A, B−). A focused summer term allows dedicated attention to SQL, relational theory, and system design."
+    },
+    {
+      "id": "fall2028",
+      "term": "Fall 2028",
+      "dates": "Aug – Dec 2028",
+      "status": "planned",
+      "courses": ["cis5450"],
+      "cu_this_term": 1,
+      "cumulative_cu": 8,
+      "notes": "Big Data Analytics. Extends SJSU CS 131 background at graduate level with heavier Spark / distributed systems engineering."
+    },
+    {
+      "id": "spring2029",
+      "term": "Spring 2029",
+      "dates": "Jan – May 2029",
+      "status": "planned",
+      "courses": ["cis5210"],
+      "cu_this_term": 1,
+      "cumulative_cu": 9,
+      "notes": "Technical Elective #1. CIS 5210 AI leverages strong SJSU CS 156 AI background (A+). Alternative: ESE 5460 Deep Learning."
+    },
+    {
+      "id": "fall2029",
+      "term": "Fall 2029",
+      "dates": "Aug – Dec 2029",
+      "status": "planned",
+      "courses": ["open_elective"],
+      "cu_this_term": 1,
+      "cumulative_cu": 10,
+      "notes": "Final open elective. Light finish to close out the degree. Course TBD based on career direction at the time. 🎓 Graduation: Fall 2029."
+    }
+  ]
+}

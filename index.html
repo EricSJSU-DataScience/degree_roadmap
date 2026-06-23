@@ -335,10 +335,9 @@ function renderProgress(meta) {
     <div class="prog-bar-wrap">
       <div class="prog-label">Overall Progress</div>
       <div class="prog-bar-track">
-        <div class="prog-bar-fill" style="width:${pctP}%;opacity:.4;background:#011F5B;position:absolute;"></div>
-        <div class="prog-bar-fill" style="width:${pct}%"></div>
+        <div class="prog-bar-fill" style="width:${pctP}%"></div>
       </div>
-      <div class="prog-pct">${done} / ${total} CU (${pct}%)</div>
+      <div class="prog-pct">${done + prog} / ${total} CU (${pctP}% including in-progress)</div>
     </div>
   `;
 }
@@ -383,9 +382,9 @@ function renderCourseCard(c) {
   const diffVal = c.difficulty;
   const diffHtml = diffVal != null ? `
     <div class="c-diff">
-      <span class="c-diff-lbl">Load</span>
+      <span class="c-diff-lbl">~${diffVal}h/wk</span>
       <div class="c-diff-bar"><div class="c-diff-fill" style="width:${diffVal*10}%;background:${diffColor(diffVal)}"></div></div>
-      <span class="c-diff-val" style="color:${diffColor(diffVal)}">${diffVal}${c.difficulty_star ? '⭐' : ''}</span>
+      ${c.difficulty_star ? '<span style="font-size:.8rem">⭐</span>' : ''}
     </div>` : '';
   const semHtml = c.semester ? `<div class="c-sem">📅 ${c.semester}</div>` : '';
   const altHtml = c.alt_note ? `<div class="c-sem" style="color:#7c3aed;font-style:italic">${c.alt_note}</div>` : '';
